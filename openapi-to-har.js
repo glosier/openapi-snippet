@@ -36,11 +36,9 @@ const createHar = function (openApi, path, method, queryParamValues) {
     queryParamValues = {}
   }
 
-  const baseUrl = getBaseUrl(openApi)
-
   const har = {
     method: method.toUpperCase(),
-    url: baseUrl + getFullPath(openApi, path, method),
+    url: getFullPath(openApi, path, method),
     headers: getHeadersArray(openApi, path, method),
     queryString: getQueryStrings(openApi, path, method, queryParamValues),
     httpVersion: 'HTTP/1.1',
@@ -190,7 +188,9 @@ const getQueryStrings = function (openApi, path, method, values) {
  * @return {string}         Full path including example values
  */
 const getFullPath = function (openApi, path, method) {
-  let fullPath = path
+  const baseUrl = getBaseUrl(openApi)
+  const servers = openApi.paths[path].servers || openApi.paths[path][method].servers
+  let fullPath = (servers) ? servers[0].url + path : baseUrl + path
   const parameters = openApi.paths[path].parameters || openApi.paths[path][method].parameters;
 
   if (typeof parameters !== 'undefined') {
