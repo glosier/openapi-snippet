@@ -22,19 +22,23 @@
   ],
   "paths": {
     "/pets": {
-      "post": {
+      "patch": {
         "description": "Creates a new pet in the store.  Duplicates are allowed",
         "operationId": "addPet",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "pet",
-            "description": "Pet to add to the store",
-            "schema": {
-              "$ref": "#/components/schemas/NewPet"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyPet"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyPetFile"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "pet response",
@@ -62,8 +66,20 @@
   },
   "components": {
     "schemas": {
-      "NewPet": {
-        "required": ["name"],
+      "ModifyPetFile": {
+        "properties": {
+          "pet[name]": {
+            "type": "string"
+          },
+          "pet[tag]": {
+            "type": "string"
+          },
+          "pet[picture]": {
+            "type": "string"
+          }
+        }
+      },
+      "ModifyPet": {
         "properties": {
           "name": {
             "type": "string"
