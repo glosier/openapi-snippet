@@ -40,7 +40,7 @@ const createHar = function (openApi, path, method, queryParamValues) {
 
   const baseHar = {
     method: method.toUpperCase(),
-    url: baseUrl + getFullPath(openApi, path, method),
+    url: getFullPath(openApi, path, method),
     headers: getHeadersArray(openApi, path, method),
     queryString: getQueryStrings(openApi, path, method, queryParamValues),
     httpVersion: 'HTTP/1.1',
