@@ -278,13 +278,9 @@ const getHeadersArray = function (openApi, path, method) {
       const secDefinition = openApi.securityDefinitions ?
         openApi.securityDefinitions[secScheme] :
         openApi.components.securitySchemes[secScheme];
-      const authType = secDefinition.type.toLowerCase();
+      const authType = secDefinition.type ? secDefinition.type.toLowerCase() : null 
       let authScheme = null;
-
-      if(authType !== 'apikey' && secDefinition.scheme != null){
-        authScheme = secDefinition.scheme.toLowerCase();
-      }
-
+      
       switch (authType) {
         case 'basic':
           basicAuthDef = secScheme
